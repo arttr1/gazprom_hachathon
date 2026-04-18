@@ -1,0 +1,10 @@
+pymupdf
+pdf2image
+Pillow
+opencv-python
+numpy
+pytesseract
+ollama
+pydantic
+# optional (лучшее OCR качество на русских сканах):
+# paddleocr
