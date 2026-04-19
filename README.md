@@ -18,7 +18,7 @@
 ### Предварительные требования
 
 - Docker и Docker Compose
-- Или Python 3.11+ с Ollama локально
+- Или Python 3.11+ с Ollama локально (Ollama должен быть установлен и запущен для работы LLM-моделей)
 
 ### Запуск через Docker Compose (рекомендуется)
 
@@ -36,6 +36,8 @@ docker-compose up --build
 - **Ollama**: http://localhost:11434
 
 ### Запуск вручную (без Docker)
+
+> **Важно**: Для работы системы требуется установленный и запущенный Ollama с загруженными моделями. Без Ollama обработка документов не будет работать.
 
 #### 1. Установка зависимостей
 
@@ -56,13 +58,40 @@ sudo apt-get install poppler-utils tesseract-ocr tesseract-ocr-rus tesseract-ocr
 brew install poppler tesseract tesseract-lang
 ```
 
-#### 2. Запуск Ollama с моделями
+#### 2. Установка и запуск Ollama
+
+**Скачайте и установите Ollama с официального сайта: https://ollama.com/**
+
+##### Установка на разных ОС:
+
+**Windows:**
+- Скачайте установщик с https://ollama.com/download
+- Запустите установщик и следуйте инструкциям
+- После установки Ollama будет доступен в командной строке
+
+**macOS:**
+```bash
+# Через Homebrew (рекомендуется)
+brew install ollama
+
+# Или скачайте с сайта и установите вручную
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+**Linux (другие дистрибутивы):**
+Скачайте подходящий пакет с https://ollama.com/download или используйте системный менеджер пакетов (например, для Arch: `pacman -S ollama`).
+
+##### Запуск Ollama и скачивание моделей:
 
 ```bash
-# Установите Ollama: https://ollama.com/
-
-# Запустите Ollama и скачайте модели
+# Запустите Ollama сервер в фоне
 ollama serve &
+
+# Скачайте необходимые модели
 ollama pull qwen2.5:3b-instruct
 ollama pull llava:7b
 ```

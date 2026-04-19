@@ -1,17 +1,20 @@
 services:
   ollama:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: passport-ocr-ollama
-    ports:
-      - "11434:11434"
-    healthcheck:
-      test: ["CMD", "ollama", "list"]
-      interval: 15s
-      timeout: 10s
-      retries: 12
-      start_period: 30s
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: passport-ocr-ollama
+      ports:
+        - "11434:11434"
+      volumes:
+        - ~/.ollama:/root/.ollama
+      healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:11434/api/tags || exit 1"]
+        interval: 5s
+        timeout: 10s
+        retries: 25
+        start_period: 40s      # самое важное — даём Ollama время на запуск
+      restart: unless-stopped
 
   server:
     build:
