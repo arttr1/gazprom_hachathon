@@ -16,15 +16,15 @@
 # COPY requirements.txt /app/requirements.txt
 # RUN pip3 install --no-cache-dir --break-system-packages -r /app/requirements.txt
 
-# # Preload models into image layer so container starts offline-ready.
+# Preload models into image layer so container starts offline-ready.
 # RUN bash -lc " \
 #     ollama serve & \
-#     OLLAMA_PID=$!; \
-#     # sleep 5; \
+#     OLLAMA_PID=\$!; \
+#     sleep 5; \
 #     ollama pull qwen2.5:3b-instruct; \
-#     # ollama pull llava:7b; \
-#     kill ${OLLAMA_PID}; \
-#     wait ${OLLAMA_PID} || true \
+#     ollama pull llava:7b; \
+#     kill \${OLLAMA_PID}; \
+#     wait \${OLLAMA_PID} || true \
 # "
 
 # COPY . /app
