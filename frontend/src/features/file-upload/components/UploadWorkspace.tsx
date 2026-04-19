@@ -3,7 +3,7 @@ import { UploadQueue } from './UploadQueue'
 import { useUploadQueue } from '../hooks/useUploadQueue'
 
 export function UploadWorkspace() {
-  const { items, isUploading, addFiles, removeFile, clearFiles, uploadFiles } =
+  const { items, isUploading, uploadError, addFiles, removeFile, clearFiles, uploadFiles } =
     useUploadQueue()
 
   return (
@@ -21,6 +21,7 @@ export function UploadWorkspace() {
 
         <UploadDropzone disabled={isUploading} onFilesSelected={addFiles} />
         <UploadQueue items={items} onRemove={removeFile} />
+        {uploadError ? <p className="queue-error">{uploadError}</p> : null}
 
         <div className="queue-footer">
           <button

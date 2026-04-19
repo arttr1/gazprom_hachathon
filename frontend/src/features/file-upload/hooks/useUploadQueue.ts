@@ -15,6 +15,7 @@ function toQueueItems(files: File[]) {
 export function useUploadQueue() {
   const [items, setItems] = useState<UploadQueueItem[]>([])
   const [isUploading, setIsUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const itemsRef = useRef<UploadQueueItem[]>([])
 
   useEffect(() => {
@@ -32,12 +33,18 @@ export function useUploadQueue() {
   }, [])
 
   const addFiles = (fileList: FileList | File[]) => {
-    const nextItems = toQueueItems(Array.from(fileList))
+    const files = Array.from(fileList)
+    const nextItems = toQueueItems(files)
 
     if (nextItems.length === 0) {
+      if (files.length > 0) {
+        setUploadError('Можно загрузить только PDF-файлы')
+      }
+
       return
     }
 
+    setUploadError(null)
     setItems((current) => [...current, ...nextItems])
   }
 
@@ -70,12 +77,16 @@ export function useUploadQueue() {
       return
     }
 
+    setUploadError(null)
     setIsUploading(true)
     setItems((current) => current.map((item) => ({ ...item, status: 'uploading' })))
 
     try {
-      await uploadService.sendFiles({ files: items.map((item) => item.file) })
+      const result = await uploadService.sendFiles({ files: items.map((item) => item.file) })
+      downloadBlob(result.blob, result.filename)
       clearFiles()
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : 'Не удалось обработать PDF')
     } finally {
       setIsUploading(false)
       setItems((current) => current.map((item) => ({ ...item, status: 'ready' })))
@@ -85,9 +96,21 @@ export function useUploadQueue() {
   return {
     items,
     isUploading,
+    uploadError,
     addFiles,
     removeFile,
     clearFiles,
     uploadFiles,
   }
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.append(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
 }

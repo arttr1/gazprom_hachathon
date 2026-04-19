@@ -1,0 +1,15 @@
+.git
+.idea
+.DS_Store
+frontend/node_modules
+frontend/dist
+frontend/.vite
+server/storage/uploads/*
+server/storage/processed/*
+server/storage/export/*
+data/processed
+data/export
+data/debug_segments
+data/debug_scan_segmentation
+__pycache__
+*.pyc

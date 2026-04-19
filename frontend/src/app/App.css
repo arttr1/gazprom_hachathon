@@ -216,6 +216,16 @@
   color: var(--accent);
 }
 
+.queue-error {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 104, 104, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 104, 104, 0.08);
+  color: #ffb3b3;
+  font-size: 0.84rem;
+}
+
 .queue-remove {
   width: 28px;
   height: 28px;

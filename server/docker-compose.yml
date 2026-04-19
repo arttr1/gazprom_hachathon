@@ -1,0 +1,26 @@
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: server/Dockerfile
+    container_name: passport-ocr-server
+    environment:
+      OLLAMA_HOST: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./storage:/app/server/storage
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ""
+    container_name: passport-ocr-frontend
+    depends_on:
+      - server
+    ports:
+      - "5173:80"
