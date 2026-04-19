@@ -6,7 +6,7 @@ sys.path.insert(0, '/Users/arttr/.kilo/skills/pptx')
 
 from pptx import Presentation
 from pptx.util import Inches, Pt
-from pptx.dml.color import RgbColor
+from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 import os
@@ -14,12 +14,12 @@ import os
 OUTPUT_PATH = "/Users/arttr/gazprom_hachathon/presentation.pptx"
 
 COLORS = {
-    'primary': RgbColor(6, 90, 130),       # #065A82 deep blue
-    'secondary': RgbColor(28, 114, 147),  # #1C7293 teal
-    'accent': RgbColor(33, 41, 92),        # #21295C midnight
-    'white': RgbColor(255, 255, 255),
-    'light': RgbColor(242, 242, 242),
-    'gray': RgbColor(128, 128, 128),
+    'primary': RGBColor(6, 90, 130),       # #065A82 deep blue
+    'secondary': RGBColor(28, 114, 147),  # #1C7293 teal
+    'accent': RGBColor(33, 41, 92),        # #21295C midnight
+    'white': RGBColor(255, 255, 255),
+    'light': RGBColor(242, 242, 242),
+    'gray': RGBColor(128, 128, 128),
 }
 
 def add_dark_background(slide):
@@ -77,7 +77,7 @@ def add_stat_callout(slide, left, top, number, label):
     box.line.color.rgb = COLORS['secondary']
     
     tb = box.text_frame
-    tb.vertical_alignment = MSO_ANCHOR.CENTER
+    tb.vertical_alignment = MSO_ANCHOR.MIDDLE
     
     p = tb.paragraphs[0]
     p.text = number
@@ -172,13 +172,13 @@ def create_presentation():
     add_dark_background(slide)
     add_slide_title(slide, "Решение")
     
-    add_content_box(slide, Inches(1.2), Inches(2.0)], [
+    add_content_box(slide, Inches(1.2), Inches(2.0), [
         "Автоматическая оцифровка PDF-документов",
         "OCR с Tesseract / PaddleOCR",
         "LLM-структуризация через Ollama",
     ])
     
-    add_content_box(slide, Inches(3.5), Inches(1.8)], [
+    add_content_box(slide, Inches(3.5), Inches(1.8), [
         "Генерация штрих-кодов (Code 39, Code 128, EAN-13)",
         "Экспорт в XLSX для 1С",
         "Веб-интерфейс для загрузки и просмотра",
@@ -189,10 +189,10 @@ def create_presentation():
     add_dark_background(slide)
     add_slide_title(slide, "Архитектура")
     
-    add_content_box(slide, Inches(1.2), Inches(3.8)], [
-        "PDF → PDFProcessor → Сегментация страниц (текст/скан)",
-        "OCR → Распознавание текста с confidence",
-        "LLMExtractor → Структуризация через LLM",
+    add_content_box(slide, Inches(1.2), Inches(3.8), [
+        "PDF -> PDFProcessor -> Сегментация страниц (текст/скан)",
+        "OCR -> Распознавание текста с confidence",
+        "LLMExtractor -> Структуризация через LLM",
         "Генерация штрих-кодов и XLSX-экспорт",
         "Веб-интерфейс: React + FastAPI",
     ])
@@ -203,7 +203,7 @@ def create_presentation():
     add_slide_title(slide, "Возможности системы")
     
     features = [
-        "Определение типа страниц (тексто��ая / скан)",
+        "Определение типа страниц (текстовая / скан)",
         "OCR: Tesseract и PaddleOCR с оценкой качества",
         "Извлечение таблиц из PDF",
         "LLM-структуризация (Ollama qwen2.5 + llava)",
@@ -220,17 +220,17 @@ def create_presentation():
     add_dark_background(slide)
     add_slide_title(slide, "Технологический стек")
     
-    add_content_box(slide, Inches(1.2), Inches(1.5)], [
+    add_content_box(slide, Inches(1.2), Inches(1.5), [
         "Frontend: React + TypeScript + Vite",
         "Backend: FastAPI + Uvicorn",
     ])
     
-    add_content_box(slide, Inches(3.0), Inches(1.5)], [
+    add_content_box(slide, Inches(3.0), Inches(1.5), [
         "OCR: Tesseract, PaddleOCR",
         "PDF: PyMuPDF, pdf2image",
     ])
     
-    add_content_box(slide, Inches(4.8), Inches(1.5)], [
+    add_content_box(slide, Inches(4.8), Inches(1.5), [
         "LLM: Ollama (qwen2.5:3b, llava:7b)",
         "Container: Docker + Compose",
     ])
@@ -246,7 +246,7 @@ def create_presentation():
     
     add_stat_callout(slide, Inches(0.5), Inches(3.3), "0-2", "Процент ошибок")
     add_stat_callout(slide, Inches(3.5), Inches(3.3), "+1", "Работа в 1С")
-    add_stat_callout(slide, Inches(6.5), Inches(3.3"), "+1", "Чек-листы и интеграция")
+    add_stat_callout(slide, Inches(6.5), Inches(3.3), "+1", "Чек-листы и интеграция")
     
     # SLIDE 8: Team
     slide = prs.slides.add_slide(prs.slide_layouts[6])
